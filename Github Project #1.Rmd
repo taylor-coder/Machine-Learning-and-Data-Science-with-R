@@ -1,0 +1,162 @@
+
+---
+title: 'NHANES Exploratory Data Project: Visualization'
+author: "Tiffany Taylor and Dr. Kasthuri Kannan"
+date: "6/24/2020"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+The following is a project completed using the NHANES data set for years 2013 and 2014. It provides a visual exploratory analysis of the relationships between age, gender, diabetes, and glucose levels.  
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(RCurl)
+URL_text_1 <- "https://raw.githubusercontent.com/kannan-kasthuri/kannan-kasthuri.github.io"
+URL_text_2 <- "/master/Datasets/HANES/NYC_HANES_DIAB.csv"
+URL <- paste(URL_text_1,URL_text_2, sep="")
+HANES <- read.csv(text=getURL(URL))
+HANES$GENDER <- factor(HANES$GENDER, labels=c("M","F"))
+HANES$AGEGROUP <- factor(HANES$AGEGROUP, labels=c("20-39","40-59","60+"))
+HANES$HSQ_1 <- factor(HANES$HSQ_1, labels=c("Excellent","Very Good","Good", "Fair", "Poor"))
+HANES$DX_DBTS <- factor(HANES$DX_DBTS, labels=c("DIAB","DIAB NO_DX","NO DIAB"))
+HANES <- na.omit(HANES)
+str(HANES)
+```
+
+```{r}
+library(tidyverse)
+ggplot(data=HANES)+
+  geom_point(mapping = aes(x=A1C, y=DX_DBTS))
+nrow=(HANES)
+```
+
+There are 1112 observations and 23 variables.
+
+```{r}
+ncol=(HANES)
+```
+
+Here we can see that most of the people that have diabetes have a A1C level of atleast 5.0 and there is a lot of density around the 7.5 test level area. This makes sense because the consensus is that people get diabetes when their test levels start eaching near 6%. This plot shows a positive relationship between A1C levels and having diabetes. In other words, the higher someone's A1C levels, the more likely they are to have been diagnosed with diabetes. This confirms my hypothesis. 
+
+```{r}
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(A1C), y = log(UACR), color=DX_DBTS))
+```
+
+Above is the creation of a ggplot with asthetic color for the variable DX_DBTS. This color visualization/graph reveals many things. Here it can be seen that most of the people in the clusters (each dot represens a person) does not have diabetes. Thus, it appears that UACR and A1C may not be risk factors for diabetes.Just to recap, A1C is blood test level. Research shows that A1C test results of 6.5% or above indicate diabetes and prediabetes is from a A1C test of 5.7% to 6.4% so these results are consistent with mainstream data. Source: https://www.virginiamason.org/whatarenormalbloodglucoselevels
+ 
+```{r}
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(GLUCOSE), y = log(TRIGLYCERIDE), color=DX_DBTS))
+```
+ 
+Above is a creation of a ggplot with asthetic color for the variable DX_DBTS and x log Glucose with y log Trigyceride. This color visualization/graph reveals many things. Here it can be seen that most of the people have no diabetes. The people that do have diabetes when considering the log(triglyceride) vs log(Glucose) is seldom and sparse. This may indicate that triglycerie and glucose levels are not sole risk factors for diabetes. 
+
+```{r}
+ggplot(data = HANES) +
+  geom_point(mapping = aes(x = log(GLUCOSESI), y = log(CREATININESI), color=DX_DBTS))
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(A1C), y = log(UACR), size=AGEGROUP))
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(GLUCOSESI), y = log(CREATININESI), size=AGEGROUP))
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(GLUCOSE), y = log(TRIGLYCERIDE), size=AGEGROUP))
+```
+
+For the above graph we see that the dots are congragated in one general areal between values of 3 and 5.5 on the 
+log(Triglyceride) scale and from 4.25 and 4.75 on the log(glucose) scale. It is difficult to see the shape of the 
+dots to indicate which dot is large or small so another type of graph would be best to look at indicating agegroup.
+I need to retry this graph adjusting for transparency and shape of the dots so I am better able to view what
+exactly is going on and analyze sufficiently what is going on.  
+
+```{r 12}
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(GLUCOSE), y = log(TRIGLYCERIDE), alpha=DX_DBTS))
+```
+
+Now, after mapping DX_DBTS to the alpha aesthetic, the control over transparency of the points is significantly improved. Here we see that most of the people have no diabetes. 
+
+```{r}
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(GLUCOSE), y = log(TRIGLYCERIDE), shape=DX_DBTS))
+```
+
+Now the shapes of the dots have altered and produces the same information as above, this is just a different way of viewing the visualization with shapes.
+
+```{r 14}
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(A1C), y = log(UACR)), color="blue")
+ggplot(data=HANES) +
+  geom_point(mapping = aes (x = log (A1C), y = log(UACR))) +
+  facet_wrap(~ DX_DBTS, nrow = 2)
+ggplot(data=HANES) +
+  geom_point(mapping = aes (x = log (GLUCOSE), y = log(TRIGLYCERIDE))) +
+  facet_wrap(~ DX_DBTS, nrow = 2)
+
+```
+
+This visualization is great in enabling us to view DIAB, DIAB No_DX and NO DIAB
+all based on log triglyceride (x axis) and log glucose (y axis). 
+
+```{r 15}
+# Make a ggplot with facet grid - GENDER vs DX_DBTS
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(A1C), y = log(UACR))) + 
+  facet_grid(GENDER ~ DX_DBTS)
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(GLUCOSE), y = log(TRIGLYCERIDE))) + 
+  facet_grid(GENDER ~ DX_DBTS)
+ggplot(data = HANES) + 
+  geom_point(mapping = aes(x = log(GLUCOSE), y = log(TRIGLYCERIDE))) + 
+  facet_grid(AGEGROUP ~ DX_DBTS)
+ggplot(data = HANES) +
+  geom_point(mapping = aes(x = log(GLUCOSESI), y = log(CREATININESI))) +
+  facet_grid(AGEGROUP ~ DX_DBTS)
+
+ggplot(data = HANES) + 
+  geom_smooth(mapping = aes(x = GLUCOSESI, y = TRIGLYCERIDE, color=GENDER)) + 
+  xlim(c(0,27)) + ylim(c(0,400)) +
+  geom_point(mapping = aes(x = GLUCOSESI, y = TRIGLYCERIDE, color=GENDER))
+
+```
+
+Above are ggplot graphs with facet grid for: (1) Gender vs. DX_DBTS, (2) Gender vs DX_DBTS, and (3)Glucose and Triglyceride instead of A1c and uarc (agegroup vs. dx_dbts). There is also a plot of a smooth and point geom in the same plot. For the graph above I first graphed it with coordinates showing ylim(c(0,425)) for GlucoseSI and then altered it to c(0,100) in order to better view the graph. Once I adjusted for this, I saw that this graph is indeed an appropriate graph for gaining more knowledge concerning this material. 
+
+```{r}
+ggplot(data = HANES, mapping = aes(x = GLUCOSE, y = TRIGLYCERIDE, color=GENDER)) + 
+  xlim(c(0,400)) + ylim(c(0,425)) +
+  geom_smooth() + 
+  geom_point()
+```
+
+Above is the visualization of a smooth and point geom in the same plot. In the above graph we are able to more clearly see where the congregation of points lie based on one's gender. We can see that most of the female dots are around the 80 to 100 mg/l glucose measurement and between 20 and 100 Triglyceride mark.Men on the other hand show more dots extending past the 100 glucose mark which may indicate that men are at risk/or have higher levels of glucose which may make them more susceptible to diseases that have high glucose levels as a risk factor. 
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+```
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
