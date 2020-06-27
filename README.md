@@ -1,6 +1,7 @@
 Thank you for visiting my github! 
 
-# National-Health-and-Nutrition-Examination-Survey-NHANES Data Science Projects
+# National Health and Nutrition Examination Survey
+#         NHANES Data Science Projects
 Portolio - I will be uploading many different projects using the NHANES data set - stay tuned!
 
 Visualization | Data Science | R
