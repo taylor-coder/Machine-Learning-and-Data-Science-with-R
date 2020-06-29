@@ -8,3 +8,5 @@ Visualization | Data Science | R
 
 Please click on the PDF file to see a project completed using the NHANES data set for years 2013 and 2014. 
 It provides a visual exploratory analysis of the relationships between age, gender, diabetes, and glucose levels.
+
+More detailed analytical reports are avaialble upon request. 
