@@ -4,7 +4,6 @@ Analytical reports and powerpoints are available upon request.
 
 # National Health and Nutrition Examination Survey
 #         NHANES Data Science Projects
-Portolio - I will be uploading many different projects using the NHANES data set - stay tuned!
 
 Visualization | Data Science | R
 
