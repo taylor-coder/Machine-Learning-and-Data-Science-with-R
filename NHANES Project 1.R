@@ -735,7 +735,6 @@ ggplot(data = HANES_mod) +
 # health variables such as glucose levels, HDL, Diabetes, and cholesterol levels, which is to be expected given 
 # that research shows as a person gets older their health tends to worsen, especially their cardiovascular health, diabetic health as 
 # well as glucose levels. It would be very interesting to see if there are any patterns between these variables, age, and race.
-# For example, does a 60 year old white male have the same chance of having high cholesterol levels as an Asian American male at age 60? 
 # What factors such as neighbhorhood walkability and access to affordable food affect one's cholesterol level? 
 # I am interested in taking this research even further by analyzing the patterns and relationships between socioeconomic factors and 
 # health determinants as well as risk factors and health variables. 
