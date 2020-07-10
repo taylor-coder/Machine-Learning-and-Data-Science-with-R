@@ -1,6 +1,5 @@
-Thank you for visiting my github! 
 
-Analytical reports and powerpoints are available upon request.
+Analytical reports / data visualizations are available upon request.
 
 # National Health and Nutrition Examination Survey
 #         NHANES Data Science Projects
