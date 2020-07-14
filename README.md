@@ -1,4 +1,4 @@
-# MACHING LEARNING VIA R
+# Machine Learning Via R
 
 Machine learning and Data Exploratory Analysis code via R 
 ___________________________________________________________________________________________________________________________________
